@@ -1,3 +1,4 @@
+import heapq
 class Node(object):
     """For state representation"""
     n = 0
@@ -36,6 +37,13 @@ class Node(object):
             xs,ys = self.pos(self.board.index(i))
             xg,yg = self.pos(goal.index(i))
             distance += abs(xs-xg) + abs(ys-yg)
+        return distance
+
+    def hamming_distance(self):
+        distance = 0
+        goal = [1,2,3,4,5,6,7,8,0]
+        for i in range(9):
+            if goal[i] != self.board[i]: distance += 1
         return distance
 
     def next(self):
@@ -86,6 +94,23 @@ class Node(object):
 
     def sop(self,x,y):
         return x * 3 + y
+
+class PriorityQueue:
+    def  __init__(self):
+        self.heap = []
+        self.count = 0
+
+    def push(self, item, priority):
+        entry = (priority, self.count, item)
+        heapq.heappush(self.heap, entry)
+        self.count += 1
+
+    def pop(self):
+        (_, _, item) = heapq.heappop(self.heap)
+        return item
+
+    def isEmpty(self):
+        return len(self.heap) == 0
 
 def printPath(state):
     path = []
